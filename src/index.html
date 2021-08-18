@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Is My Car?</title>
+    <style>
+    *{
+        margin: 0;
+    }
+    .map {
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <script src="./libs/openLayer/ol.js"></script>
+    <script>
+      const map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([37.41, 8.82]),
+          zoom: 4
+        })
+      });
+    </script>
+</body>
+</html>
