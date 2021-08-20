@@ -10,7 +10,7 @@ const main = (pos) => {
       }),
     });
   }
-  
+  console.log(window.innerHeight , window.innerWidth)
   const carFeature = new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat([pos.longitude, pos.latitude])));
   const meFeature = new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat([pos.longitude - 10, pos.latitude - 10])));
 
@@ -35,7 +35,7 @@ const main = (pos) => {
     target: document.getElementById('map'),
     view: new ol.View({
       center: ol.proj.fromLonLat([pos.longitude, pos.latitude]),
-      zoom: 10,
+      zoom: 20
     }),
   });
   car(carFeature , createStyle , map)
@@ -44,4 +44,4 @@ const main = (pos) => {
 
 navigator.geolocation.getCurrentPosition(currentPos => {
   main(currentPos.coords)
-})
+} , () => {}, {enableHighAccuracy:true})

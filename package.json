@@ -1,0 +1,33 @@
+{
+  "name": "whereIsMyCar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "knex": "^0.21.21",
+    "mariadb": "^2.5.4",
+    "mysql2": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server.js",
+    "sql": "node ./sqlForVsCode-mariadb/sql-watcher.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaolucas345/whereIsMyCar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaolucas345/whereIsMyCar/issues"
+  },
+  "homepage": "https://github.com/joaolucas345/whereIsMyCar#readme"
+}

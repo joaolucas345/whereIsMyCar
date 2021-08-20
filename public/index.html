@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Is My Car?</title>
+</head>
+<body>
+    <style>
+        *{
+            margin: 0;
+        }
+        body{
+            position: relative;
+        }
+        .map {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+          }
+        button{
+              position: absolute;
+              bottom: 5vh;
+              right: 5vh;
+              height: 10vh;
+              width: 10vh;
+              min-width: 67px;
+              min-height: 67px;
+              border: none;
+              border-radius: 100px;
+              box-shadow: 2px 2px 4pc;
+              background-color: aliceblue;
+              cursor: pointer;
+              visibility: hidden;
+              transition: 2s all;
+          }
+        .map-container{
+            width: 100vw;
+            height: 100vh;
+        }
+        #expand{
+            min-width: 67px;
+            min-height: 67px;
+        }
+        button[class]{
+            visibility: visible;
+        }
+        .popup{
+            margin-bottom: 12vh;
+        }
+        </style>
+    <div class="map-container">
+        <div id="map" class="map"></div>
+    </div>
+    <!-- <button id="btn" class="d">EXPEND</button> -->
+    <!-- <button id="btn" >ARROW</button> -->
+    <script src="./libs/openLayer/ol.js"></script>
+    <script src="create.js"></script>
+    <script src="index.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
