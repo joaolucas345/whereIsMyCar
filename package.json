@@ -2,22 +2,10 @@
   "name": "whereIsMyCar",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "knex": "^0.21.21",
-    "mariadb": "^2.5.4",
-    "mysql2": "^2.3.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.12"
-  },
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/server.js",
-    "sql": "node ./sqlForVsCode-mariadb/sql-watcher.js"
+    "dev":"nodemon -L ./api/src/server.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/joaolucas345/whereIsMyCar/issues"
   },
-  "homepage": "https://github.com/joaolucas345/whereIsMyCar#readme"
+  "homepage": "https://github.com/joaolucas345/whereIsMyCar#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mariadb": "^2.5.4",
+    "nodemon": "^2.0.12"
+  }
 }
