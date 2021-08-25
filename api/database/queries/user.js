@@ -2,7 +2,7 @@ module.exports = [
     {
         name:"getUser",
         callback: async (runner , arg) => {
-            const users = await runner("SELECT * FROM users")
+            const users = await runner(`SELECT * FROM users WHERE username="${arg[0]}"`)
             return users
         }
    },

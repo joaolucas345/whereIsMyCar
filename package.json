@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon -L ./api/src/server.js"
+    "dev": "nodemon -L ./api/src/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.5.4",
     "nodemon": "^2.0.12"
   }

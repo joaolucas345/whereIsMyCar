@@ -69,6 +69,6 @@ class jjwt
 }
 const dotenv = require("dotenv").config({path: `${__dirname}/../.env`})
 const PasswordManager = new jjwt()
-PasswordManager.register(process.env.JJWT_KEY , process.env.JJWT_IV)
+PasswordManager.register("dbbdhbfh" , "ddsds")
 
 module.exports = PasswordManager
