@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 , maximum-scale=1.0">
+    <title>Register</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        outline: none;
+    }
+    body{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        font-family: sans-serif;
+        position: relative;
+    }
+    .container{
+        position: absolute;
+        top: 3vh;
+        height: 85vh;
+        /* width: 50vw; */
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+    img{
+        height: 25vh;
+        width: 90%;
+    }
+    input{
+        width: 50vw;
+        height: 5vh;
+        border-radius: 30px;
+        border: 2px solid black;
+        min-width: 300px;
+        cursor: text;
+        box-shadow: 1px 1px 0.5pc black;
+        text-align: center;
+    }
+    button{
+        width: 25vw;
+        min-width: 150px;
+        cursor: pointer;
+        background: rgb(108,99,255);
+        border-radius: 30px;
+        border: 2px solid black;
+        padding: 1vh;
+        color: white;
+        box-shadow: 1px 1px 0.5pc black;
+    }
+    a{
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }        
+    @media screen and (max-width: 1024px){
+        body{
+            /* background-color: red; */
+        }
+        input:focus{
+            /* zoom: 1.5; */
+        }
+    }
+</style>
+<body>
+    <div class="container">
+        <img src="data/register.svg">
+        <h2>Welcome!!!</h2>
+        <p>Username</p>
+        <input placeholder="Type your username" maxlength="255" id="username" autocomplete="off">
+        <p>Password</p>
+        <input placeholder="Type your password" id="password" maxlength="100" autocomplete="off" >
+        <p>Already have an account? <a href="login.html">Login</a></p>
+        <button>Register</button>
+    </div>
+    <script>
+        const API_URL = "http://192.168.1.239:3001"
+        const usernameInput = document.querySelector("#username")
+        const passwordInput = document.querySelector("#password")
+        const submitButton = document.querySelector("button")
+        submitButton.onclick = async () => {
+            //action when submitted
+            if(!usernameInput.value) usernameInput.style.border = "2px solid red"
+            if(!passwordInput.value) passwordInput.style.border = "2px solid red"
+            if(!usernameInput.value || !passwordInput.value) return
+            let response = await fetch(`${API_URL}/authentication/register`, {credentials:"include" , method:"POST" , body:JSON.stringify({
+                username:usernameInput.value,
+                password:passwordInput.value
+            }) , headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':"*"
+            }})
+            const resp = await response.text()
+
+            if(resp == "error") return window.alert("User couldn't be created, one reason maybe the username")
+            const redirect = (url) => {
+             const a = document.createElement("a")
+             a.href = url
+             a.click()   
+            }
+            redirect("/")
+        }
+    </script>
+</html>

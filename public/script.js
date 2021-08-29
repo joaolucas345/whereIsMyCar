@@ -32,7 +32,7 @@ const main = (pos) => {
         source: new ol.source.Vector({features: [meFeature]}),
       }),
     ],
-    target: document.getElementById('map'),
+    target: document.getElementById('map-div'),
     view: new ol.View({
       center: ol.proj.fromLonLat([pos.longitude, pos.latitude]),
       zoom: 20

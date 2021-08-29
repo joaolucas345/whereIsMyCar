@@ -3,13 +3,39 @@ const app = express()
 const database = require("../database/sql")
 const errorHandler = require("../utils/errorHandler")
 const encrypter = require("../utils/jjwt")
+const jwt = require("jsonwebtoken")
 
+app.use((req,res,next) => {
+    try{
+        const cookieJSON = {}
+        console.log(req.headers.cookie)
 
-
+        const cookie = req.headers.cookie?.split("; ") ? req.headers.cookie?.split("; ") : cookie = req.headers.cookie  
+        Array.isArray(cookie) ? cookie.map(cookie => {
+            const areas = cookie.split("=")
+            cookieJSON[areas[0]] = areas[1]
+        }) : () => {
+            const areas = cookie.split("=")
+            cookieJSON[areas[0]] = areas[1]
+        }
+        req.cookie = cookieJSON
+        if(req.cookie.ssid_cookie) {
+            const isMyJWT = jwt.verify(req.cookie.ssid_cookie , process.env.JWT_KEY)
+            const userToAsing = {}
+            Object.entries(isMyJWT).map(key => {
+                if(key[0] != "iat" && key[0] != "exp"){
+                    userToAsing[key[0]] = key[1]
+                }
+            })
+            req.user = userToAsing
+        }
+    }catch(err){}
+    next()
+})
 
 app.get("/" , async (req,res) => {
     try{
-        const cars = await database("getCar")
+        const cars = await database("getCar" , [req.user?.username])
         cars.forEach(car => car.pos = JSON.stringify(encrypter.getCookie(car.pos)))
         res.send(cars)
     }catch(err){
@@ -20,19 +46,20 @@ app.get("/" , async (req,res) => {
 app.put("/" , async (req,res) => {
     try{
         let {position , carname} = req.body
-        position = encrypter.createCookie(JSON.parse(position))
-        await database("createCar" , [position , carname])
+        position = encrypter.createCookie(position)
+        await database("createCar" , [position , carname , req.user?.username])
         res.send("car created")
     }catch(err){
+        console.log(err.message)
         errorHandler(res , err.message)
     }
 })
 
 app.post("/" , async (req,res) => {
     try{
-        let {column , old , value} = req.body
+        let {column , carname , value} = req.body
         if(column == "pos") value = encrypter.createCookie(JSON.parse(value))
-        await database("updateCar" , [column , old , value])
+        await database("updateCar" , [column , carname , value , req.user?.username])
         res.send("car updated")
     }catch(err){
         errorHandler(res , err.message)
@@ -41,8 +68,7 @@ app.post("/" , async (req,res) => {
 
 app.delete("/" , async (req,res) => {
     try{
-        const {user} = req.body
-        await database("deleteCar" , [user])
+        await database("deleteCar" , [req.user?.username , req.body.carname])
         res.send("car deleted")
     }catch(err){
         errorHandler(res , err.message)

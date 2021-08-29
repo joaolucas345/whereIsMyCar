@@ -1,15 +1,8 @@
 const fs = require("fs")
 const dirPath = `${__dirname}/queries`
+const raw = require("./raw")
 const fileDIR = fs.readdirSync(dirPath)
 
-const mariadb = require("mariadb").createPool({
-    user:"root",
-    password:"140507",
-    database:"carloc",
-    port: 3307,
-    host: "localhost",
-    multipleStatements:true
-})
 
 //script
 let sqlScripts = [],
@@ -23,20 +16,6 @@ fileDIR.forEach((filename) => {
         console.error(err.message)
     }
 })
-
-function raw(query = "query")
-{
-    return new Promise(async (resolve, reject) => {   
-        mariadb.query(query)
-                .then(value => {
-                    resolve(Array.from(value))
-                })
-                .catch(err => {
-                    console.error(err)
-                    reject(err)
-                })
-    })
-}
 
 module.exports = async (functionName =  "yourSQLFunction", args = []) => {
     const queryResponse = await sqlScripts[functionName].callback(raw , args)

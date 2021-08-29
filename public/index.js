@@ -1,4 +1,3 @@
-console.log("Hey, World!")
 function Start()
 {
     const expandBtn = Array.from(document.querySelectorAll("#btn"))

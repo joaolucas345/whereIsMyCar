@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 , maximum-scale=1.0">
+    <title>Login</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        outline: none;
+    }
+    body{
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        position: relative;
+    }
+    .container{
+        position: absolute;
+        top: 3vh;
+        height: 85vh;
+        width: 100%;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+    img{
+        height: 25vh;
+        width: 90%;
+    }
+    input{
+        width: 50vw;
+        height: 5vh;
+        border-radius: 30px;
+        border: 2px solid black;
+        min-width: 300px;
+        cursor: text;
+        text-align: center;
+        box-shadow: 1px 1px 0.5pc black;
+    }
+    button{
+        width: 25vw;
+        min-width: 150px;
+        cursor: pointer;
+        background: rgb(108,99,255);
+        border-radius: 30px;
+        border: 2px solid black;
+        padding: 1vh;
+        color: white;
+        box-shadow: 1px 1px 0.5pc black;
+    }
+    a{
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+<body>
+    <div class="container">
+        <img src="data/login.svg">
+        <h2>Welcome Back!!!</h2>
+        <p>Username</p>
+        <input placeholder="Type your username" id="username" autocomplete="off">
+        <p>Password</p>
+        <input placeholder="Type your password" id="password" autocomplete="off" >
+        <p>Don't have a account yet? <a href="register.html">Register</a></p>
+        <button>Log In</button>
+    </div>
+    <script>
+        const usernameInput = document.querySelector("#username")
+        const passwordInput = document.querySelector("#password")
+        const submitButton = document.querySelector("button")
+        submitButton.onclick = async () => {
+            const API_URL = "http://192.168.1.239:3001"
+            if(!usernameInput.value) usernameInput.style.border = "2px solid red"
+            if(!passwordInput.value) passwordInput.style.border = "2px solid red"
+            if(!usernameInput.value || !passwordInput.value) return
+            console.log(usernameInput.value , passwordInput.value)
+            //action when submitted
+            let response = await fetch(`${API_URL}/authentication/login` , {body:JSON.stringify({
+                usernamefromuser: usernameInput.value,
+                password: passwordInput.value
+            }),
+            method:"POST",
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':"*"
+            }
+            })
+            response = await response.text()
+            if(response == "error") return window.alert("User not found")
+            const redirect = (url) => {
+             const a = document.createElement("a")
+             a.href = url
+             a.click()   
+            }
+            redirect("/")
+        }
+    </script>
+</html>
