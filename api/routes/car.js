@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken")
 app.use((req,res,next) => {
     try{
         const cookieJSON = {}
-        console.log(req.headers.cookie)
 
         const cookie = req.headers.cookie?.split("; ") ? req.headers.cookie?.split("; ") : cookie = req.headers.cookie  
         Array.isArray(cookie) ? cookie.map(cookie => {
@@ -37,6 +36,10 @@ app.get("/" , async (req,res) => {
     try{
         const cars = await database("getCar" , [req.user?.username])
         cars.forEach(car => car.pos = JSON.stringify(encrypter.getCookie(car.pos)))
+        cars.forEach(car => {
+            car.id = null
+            car.user_id = null
+        })
         res.send(cars)
     }catch(err){
         errorHandler(res , err.message)
@@ -46,11 +49,10 @@ app.get("/" , async (req,res) => {
 app.put("/" , async (req,res) => {
     try{
         let {position , carname} = req.body
-        position = encrypter.createCookie(position)
+        position = encrypter.createCookie(JSON.parse(position))
         await database("createCar" , [position , carname , req.user?.username])
         res.send("car created")
     }catch(err){
-        console.log(err.message)
         errorHandler(res , err.message)
     }
 })

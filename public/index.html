@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="stuff.css">
+    <link rel="icon" href="data/logo.jpeg">
     <title>Where Is My Car?</title>
 </head>
 <style>
@@ -90,8 +91,6 @@
         display: flex;
         align-items: center;
         flex-direction: column; 
-        /* grid-template-rows: 100%; */
-        /* grid-template-columns: 100%; */
     }
     .user > div{
         margin: 2vh;
@@ -175,13 +174,21 @@
             navigator.geolocation.watchPosition((pos) => {
                 position = pos.coords
             })
-        const API_URL = "http://192.168.1.239:3001"
+        const API_URL = "http://192.168.1.5:3001"
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin':"*"
         }
+        let refreshMap = setTimeout(() => {
+            window.location.reload()
+        } , 300000)//300000
         const { username } = await fetch(`${API_URL}/authentication/user` , {credentials:"include"}).then(async response => await response.json())
+        if(!username){
+            const a = document.createElement("a")
+            a.href = "/login.html"
+            a.click()
+        }
         const usernameChangeInput = document.querySelector(`#usernamechange`)
         usernameChangeInput.value = username
         const passwordChangeInput = document.querySelector("#passwordchange")
@@ -203,6 +210,13 @@
                 })
                 Array.from(tab.tab.children)[0].classList.add("show")
                 tab.div.classList.add("in-screen")
+                if(tab.div.classList.contains("map")){
+                    refreshMap = setTimeout(() => {
+                        window.location.reload()
+                    } , 300000)
+                }else{
+                    clearTimeout(refreshMap)
+                }
             }
         })
 
@@ -259,9 +273,7 @@
                 column:"pos",
                 value:JSON.stringify(newpos)
             })})
-            setTimeout(() => {
                     window.location.reload()
-                }, 2000)
             }
         })
         const carsEl = Array.from(document.querySelectorAll(".rm-button"))
@@ -271,9 +283,7 @@
                 await fetch(`${API_URL}/car` , {method:"DELETE" , credentials:"include" , headers, body:JSON.stringify({
                     carname:elcar.value
                 })})
-                setTimeout(() => {
                     window.location.reload()
-                }, 2000)
             }
         })
 
@@ -282,20 +292,21 @@
         addCarBtn.onclick = async () => {
             const answer = prompt("What is the car name? ")
             if(answer != null || ""){
-                console.log("sending")
                 await fetch(`${API_URL}/car` , {method:"PUT" , credentials:"include" , headers, body:JSON.stringify({
             "carname":answer,
-            "position":JSON.stringify([position.longitude, position.latitude])//change this
+            "position":JSON.stringify([position.longitude + (Math.random() * 5), position.latitude + (Math.random() * 5)])//change this
         })})
-                setTimeout(() => {
-                    window.location.reload()
-                }, 2000)
+                window.location.reload()
             }
         }  
         }//dont take it off, belong to init function whihc give await power to the entire script tag
-        navigator.geolocation.getCurrentPosition((pos) => {
+        //navigator.geolocation.getCurrentPosition((pos) => {
+            const pos = {coords: {
+                latitude: 1,
+                longitude: 2
+            }}
             init(pos.coords)
-        })
+        //})
         </script>
     <script src="script.js"></script>
 </body>

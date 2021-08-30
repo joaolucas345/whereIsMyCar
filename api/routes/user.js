@@ -64,7 +64,6 @@ app.post("/" , async (req,res) => {
                 throw "database error"
         })
         if(column == "username"){
-            console.log(value , " <= new username")
             login({username:value} , res)
             res.end()
         }else{

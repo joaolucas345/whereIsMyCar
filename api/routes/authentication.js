@@ -68,7 +68,6 @@ app.post("/register" , async (req,res) => {//s
             res.end()
         }
     }catch(err){
-        console.log(err.message , "messa")
         errorHandler(res, err.message)
     }
 })

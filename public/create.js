@@ -1,5 +1,5 @@
 const car = (iconFeature , createStyle , map) => {
-    iconFeature.set('style', createStyle('data/data.png', undefined));
+    iconFeature.set('style', createStyle('data/personicon.png', undefined));
     const selectStyle = {};
     const select = new ol.interaction.Select({
       style: function (feature) {
@@ -31,7 +31,7 @@ const car = (iconFeature , createStyle , map) => {
     }
 
 const me = (iconFeature , createStyle , map) => {
-      iconFeature.set('style', createStyle('data/data.png', undefined));
+      iconFeature.set('style', createStyle('data/caricon.png', undefined));
       const selectStyle = {};
       const select = new ol.interaction.Select({
         style: function (feature) {

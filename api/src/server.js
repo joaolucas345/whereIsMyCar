@@ -20,7 +20,7 @@ app.use((err, req, res, next) => {
 
 app.use(cors({
     credentials:true,
-    origin:"http://localhost:3001",
+    origin:"http://192.168.1.5:3001",
     methods:["GET" , "DELETE" , "PUT" , "POST"]
 }))
 app.use(express.json())

@@ -1,8 +1,8 @@
 const mariadb = require("mariadb").createPool({
     user:"root",
-    password:"140507",
+    password:"<password>",
     database:"carloc",
-    port: 3307,
+    port: 3306,
     host: "localhost",
     multipleStatements:true
 })
